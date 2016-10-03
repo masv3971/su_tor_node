@@ -1,7 +1,7 @@
 ---
 # This playbook runs all the Tor play in the deployment.
 - name: Installing TOR exit node.
-  hosts: "{{host}}"
+  hosts: tor_nodes
   tasks:
     - name: add torproject to source list.
       apt_repository: repo='deb http://deb.torproject.org/torproject.org jessie main' state=present
