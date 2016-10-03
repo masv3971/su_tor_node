@@ -1,0 +1,19 @@
+---
+# This playbook runs all the Tor play in the deployment.
+- name: Installing TOR exit node.
+  hosts: "{{host}}"
+  tasks:
+    - name: add torproject to source list.
+      apt_repository: repo='deb http://deb.torproject.org/torproject.org jessie main' state=present
+
+    - name: add torproject to source list
+      apt_repository: repo='deb-src http://deb.torproject.org/torproject.org jessie main' state=present
+
+    - name: sign source.list entry (gnupg)
+      apt_key: keyserver=keys.gnupg.net id=886DDD89
+
+    - name: installing tor_package
+      apt: name=tor state=present update_cache=yes
+
+    - name: installing deb.torproject.org-keyring
+      apt: name=deb.torproject.org-keyring state=present
