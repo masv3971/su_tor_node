@@ -1,6 +1,6 @@
 ---
 # Apply installation and conf to tor nodes.
-- hosts: tor-nodes
+- hosts: tor_nodes
 
   roles:
   - tor
