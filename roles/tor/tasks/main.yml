@@ -1,22 +1,24 @@
 ---
 # This playbook runs all the Tor play in the deployment.
-- name: Installing TOR exit node.
-  hosts: tor_nodes
-  tasks:
-    - name: add torproject to source list.
-      apt_repository: repo='deb http://deb.torproject.org/torproject.org jessie main' state=present
+- name: add torproject to source list.
+  apt_repository: repo='deb http://deb.torproject.org/torproject.org jessie main' state=present
 
-    - name: add torproject to source list
-      apt_repository: repo='deb-src http://deb.torproject.org/torproject.org jessie main' state=present
+- name: add torproject to source list
+  apt_repository: repo='deb-src http://deb.torproject.org/torproject.org jessie main' state=present
 
-    - name: sign source.list entry (gnupg)
-      apt_key: keyserver=keys.gnupg.net id=886DDD89
+- name: sign source.list entry (gnupg)
+  apt_key: keyserver=keys.gnupg.net id=886DDD89
 
-    - name: apt-get update
-      apt: update_cache=yes
+- name: apt-get update
+  apt: update_cache=yes
 
-    - name: installing tor_package
-      apt: name={{ item }} state=present
-      with_items:
-        - tor
-        - deb.torproject.org-keyring
+- name: installing tor_package
+  apt: name={{ item }} state=present
+  with_items:
+    - tor
+    - deb.torproject.org-keyring
+
+- name: Create torrc configuration file.
+  template: src={{ item }} dest=/etc/tor/{{ item }}
+  with_item:
+    - torrc
